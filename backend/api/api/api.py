@@ -14,15 +14,18 @@ def product_api_view(request, pk=None, *args, **kwargs):
         # If a pk is provided, return the specific product
         if pk is not None:
             product = get_object_or_404(Product, pk=pk)
-            serializer = ProductSerializer1(product)
+            serializer = ProductSerializer1(product, context={'request': request})
             return Response(serializer.data, status=status.HTTP_200_OK)
         # If no pk is provided, return all products
         products = Product.objects.all()
-        serializer = ProductSerializer2(products, many=True)
+        context = {'request': request}
+        serializer = ProductSerializer1(products, many=True, context=context)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     if request.method == 'POST':
-        serializer = ProductSerializer1(data=request.data)
+        data = request.data
+        name = data.get('name')
+        serializer = ProductSerializer1(data=request.data,  context={'request': request})
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -32,7 +35,7 @@ def product_api_view(request, pk=None, *args, **kwargs):
         if pk is None:
             return Response({"error": "ID is required for this request"}, status=status.HTTP_400_BAD_REQUEST)
         product = get_object_or_404(Product, pk=pk)
-        serializer = ProductSerializer1(product, data=request.data)
+        serializer = ProductSerializer1(product, data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -49,7 +52,7 @@ def product_api_view(request, pk=None, *args, **kwargs):
         if pk is None:
             return Response({"error": "ID is required for this request"}, status=status.HTTP_400_BAD_REQUEST)
         product = get_object_or_404(Product, pk=pk)
-        serializer = ProductSerializer1(product, data=request.data, partial=True)
+        serializer = ProductSerializer1(product, data=request.data, partial=True, context={'request': request})
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
