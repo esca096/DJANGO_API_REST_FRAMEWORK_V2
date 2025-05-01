@@ -1,4 +1,4 @@
-CE qu'il faut maitriser dans ce qui guide de creation d'une PAI
+CE qu'il faut maitriser dans ce guide de creation d'une API
 
 ces fichiers sont dans dossier api dans l'application api
 * Serializers.py
@@ -7,4 +7,4 @@ ces fichiers sont dans dossier api dans l'application api
 * urls.py
 * models.py
 * les configurations dans le settings.py
-* 
+  
