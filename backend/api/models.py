@@ -9,6 +9,7 @@ class Product(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, blank=True)
     
     def get_absolute_url(self):
         return reverse("api:product_api_view_detail", kwargs={"pk": self.pk})
