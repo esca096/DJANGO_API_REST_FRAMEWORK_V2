@@ -10,8 +10,12 @@ from api.api.mixins import (ProductListApiView,
                             CombineApiVIewSet,
                             )
 
+from rest_framework.authtoken.views import obtain_auth_token
+
 app_name = 'api'
 urlpatterns = [
+    #permet de recuperer le token d'authentificationpour thunder client
+    path('api-auth-token/', obtain_auth_token, name='api_obtain_auth_token'),
     
     #url with api_view
     path('', home, name='home'),
